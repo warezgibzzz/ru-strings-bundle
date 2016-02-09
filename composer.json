@@ -1,4 +1,3 @@
-
 {
     "name": "it-blaster/ru-strings-bundle",
     "type": "symfony-bundle",
@@ -16,6 +15,5 @@
             "Etfostra\\RuStringsBundle": ""
         }
     },
-    "minimum-stability": "dev",
     "target-dir": "Etfostra/RuStringsBundle"
 }
