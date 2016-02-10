@@ -27,7 +27,7 @@ class RuCase
      * @param \Redis $redis
      * @param ContainerInterface $container
      */
-    public function __construct(\Redis $redis, ContainerInterface $container)
+    public function __construct($redis, ContainerInterface $container)
     {
         $this->redis    = $redis;
         $this->ttl      = $container->getParameter('etfostra_ru_strings.redis_cache_ttl');
