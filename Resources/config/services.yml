@@ -5,8 +5,11 @@ services:
             - @snc_redis.default
             - @service_container
 
+    ru_strings.plural:
+        class: Etfostra\RuStringsBundle\Service\RuPlural
+
     ru_strings.ru_strings_extension:
         class: Etfostra\RuStringsBundle\Twig\RuStringsExtension
-        arguments: [ @ru_strings.case ]
+        arguments: [ @ru_strings.case, @ru_strings.plural ]
         tags:
             - { name: twig.extension }
