@@ -2,14 +2,14 @@ services:
     ru_strings.case:
         class: Etfostra\RuStringsBundle\Service\RuCase
         arguments:
-            - @snc_redis.default
-            - @service_container
+            - '@snc_redis.default'
+            - '@service_container'
 
     ru_strings.plural:
         class: Etfostra\RuStringsBundle\Service\RuPlural
 
     ru_strings.ru_strings_extension:
         class: Etfostra\RuStringsBundle\Twig\RuStringsExtension
-        arguments: [ @ru_strings.case, @ru_strings.plural ]
+        arguments: [ '@ru_strings.case', '@ru_strings.plural' ]
         tags:
             - { name: twig.extension }
