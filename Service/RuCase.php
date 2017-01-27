@@ -104,7 +104,7 @@ class RuCase
             }
         }
 
-        return (string)$inflection;
+        return mb_ereg_replace("[^А-Яа-я]", "", $inflection);
     }
 
     /**
