@@ -92,12 +92,14 @@ class RuCase
                 $ucLetter = mb_strtoupper($letter, 'UTF-8');
 
                 if ($letter === $ucLetter) {
+
                     for ($j = 0; $j < 3; $j++) {
                         $inflLetter = mb_substr($inflection, $i + $j, 1, 'UTF-8');
                         $ucInflLetter = mb_strtoupper($inflLetter, 'UTF-8');
 
                         if ($ucInflLetter === $ucLetter) {
                             $inflection = mb_substr($inflection, 0, $i + $j, 'UTF-8').$ucInflLetter.mb_substr($inflection, $i + $j + 1, $inflLen, 'UTF-8');
+                            break;
                         }
                     }
                 }
@@ -111,7 +113,7 @@ class RuCase
             }
         }
 
-        return mb_ereg_replace("[^А-Яа-я\-]", "", $inflection);
+        return mb_ereg_replace("[^А-Яа-я\- ]", "", $inflection);
     }
 
     /**
