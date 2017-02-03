@@ -1,6 +1,7 @@
 <?php
 
 namespace Etfostra\RuStringsBundle\Service;
+use Doctrine\Common\Cache\RedisCache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RuCase
 {
-    /** @type  \Redis */
+    /** @type  RedisCache */
     protected $redis;
 
     /** @var int Время жизни кеша */
@@ -24,10 +25,10 @@ class RuCase
 
     /**
      * RuCase constructor.
-     * @param \Redis $redis
+     * @param RedisCache $redis
      * @param ContainerInterface $container
      */
-    public function __construct($redis, ContainerInterface $container)
+    public function __construct(RedisCache $redis, ContainerInterface $container)
     {
         $this->redis    = $redis;
         $this->ttl      = $container->getParameter('etfostra_ru_strings.redis_cache_ttl');
@@ -48,13 +49,13 @@ class RuCase
 
         $ttl = (int) $ttl;
 
-        $cacheKey = __CLASS__.':'.__METHOD__.':'.md5($phrase.':'.$form);
+        $cacheKey = 'RuCase::inflect:'.md5($phrase.':'.$form);
 
-        $data = $this->getRedis()->get($cacheKey);
+        $data = $this->getRedis()->fetch($cacheKey);
 
         if (empty($data)) {
             $data = $this->query($phrase, $form);
-            $this->getRedis()->setex($cacheKey, $ttl, $data);
+            $this->getRedis()->save($cacheKey, $data, $ttl);
         }
 
         return $data;
@@ -80,6 +81,7 @@ class RuCase
 
             $orig = $array['orig'];
             $infl = $array[$case];
+
             $origLen = mb_strlen($orig, 'UTF-8');
             $inflLen = mb_strlen($infl, 'UTF-8');
 
@@ -87,12 +89,17 @@ class RuCase
 
             for ($i = 0; $i < $origLen; $i++) {
                 $letter = mb_substr($orig, $i, 1, 'UTF-8');
+                $ucLetter = mb_strtoupper($letter, 'UTF-8');
 
-                if ($letter === mb_strtoupper($letter, 'UTF-8')) {
-                    $inflLetter = mb_substr($inflection, $i, 1, 'UTF-8');
-                    $inflLetter = mb_strtoupper($inflLetter, 'UTF-8');
+                if ($letter === $ucLetter) {
+                    for ($j = 0; $j < 3; $j++) {
+                        $inflLetter = mb_substr($inflection, $i + $j, 1, 'UTF-8');
+                        $ucInflLetter = mb_strtoupper($inflLetter, 'UTF-8');
 
-                    $inflection = mb_substr($inflection, 0, $i, 'UTF-8').$inflLetter.mb_substr($inflection, $i+1, $inflLen, 'UTF-8');
+                        if ($ucInflLetter === $ucLetter) {
+                            $inflection = mb_substr($inflection, 0, $i + $j, 'UTF-8').$ucInflLetter.mb_substr($inflection, $i + $j + 1, $inflLen, 'UTF-8');
+                        }
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -108,7 +115,7 @@ class RuCase
     }
 
     /**
-     * @return \Redis
+     * @return RedisCache
      */
     public function getRedis()
     {
@@ -116,7 +123,7 @@ class RuCase
     }
 
     /**
-     * @param \Redis $redis
+     * @param RedisCache $redis
      */
     public function setRedis($redis)
     {

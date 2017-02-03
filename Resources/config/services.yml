@@ -2,7 +2,7 @@ services:
     ru_strings.case:
         class: Etfostra\RuStringsBundle\Service\RuCase
         arguments:
-            - '@snc_redis.default'
+            - '@redis_cache'
             - '@service_container'
 
     ru_strings.plural:
