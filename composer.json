@@ -1,19 +1,19 @@
 {
-    "name": "it-blaster/ru-strings-bundle",
+    "name": "warezgibzzz/ru-strings-bundle",
     "type": "symfony-bundle",
     "description": "Склонение по падежам и сопряжение с числом",
     "keywords": ["symfony", "twig", "russian"],
-    "homepage": "https://github.com/it-blaster/ru-strings-bundle",
+    "homepage": "https://github.com/warezgibzzz/ru-strings-bundle",
     "license": "MIT",
     "require": {
-        "php": ">=5.3.2",
-        "symfony/framework-bundle": "~2.1",
-        "snc/redis-bundle": "^2.0"
+        "php": ">=5.6 || <7.1",
+        "symfony/framework-bundle": ">=3.1 || <4.0",
+        "symfony/cache": "3.*"
     },
     "autoload": {
         "psr-0": {
-            "Etfostra\\RuStringsBundle": ""
+            "Warezgibzzz\\RuStringsBundle": ""
         }
     },
-    "target-dir": "Etfostra/RuStringsBundle"
+    "target-dir": "Warezgibzzz/RuStringsBundle"
 }
