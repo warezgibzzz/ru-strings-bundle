@@ -1,9 +1,9 @@
 {
-    "name": "warezgibzzz/ru-strings-bundle",
+    "name": "warezgibzzz/ru-verbs-bundle",
     "type": "symfony-bundle",
     "description": "Склонение по падежам и сопряжение с числом",
     "keywords": ["symfony", "twig", "russian"],
-    "homepage": "https://github.com/warezgibzzz/ru-strings-bundle",
+    "homepage": "https://github.com/warezgibzzz/ru-verbs-bundle",
     "license": "MIT",
     "require": {
         "php": ">=5.6 || <7.1",
@@ -12,8 +12,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Warezgibzzz\\RuStringsBundle": ""
+            "Warezgibzzz\\RuVerbsBundle": ""
         }
     },
-    "target-dir": "Warezgibzzz/RuStringsBundle"
+    "target-dir": "Warezgibzzz/RuVerbsBundle"
 }
